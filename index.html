@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#92a559">
+<meta name="description" content="The old-school snake game, fullscreen. Play with your X handle and climb the shared top 10.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Snake Game">
+<meta property="og:description" content="One snake. One high score. Play the classic fullscreen and climb the top 10 with your X handle.">
+<meta property="og:image" content="https://snake-game-nokia.higgsfield.app/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Snake Game">
+<meta name="twitter:image" content="https://snake-game-nokia.higgsfield.app/cover.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="canonical" href="https://snakegame.lol/">
+<link rel="icon" href="https://snake-game-nokia.higgsfield.app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="https://snake-game-nokia.higgsfield.app/icon-192.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/screens.css">
+<link rel="stylesheet" href="/responsive.css">
+<title>Snake Game</title>
+</head>
+<body>
+<main id="app" aria-label="Snake Game">
+<header class="hud">
+<button id="score-button" class="score-button" title="View top 10 high scores" aria-label="Score 0000. View top 10 high scores"><pixel-text id="score" text="0000"></pixel-text></button>
+<button id="pause-button" class="pause-button" hidden aria-label="Pause game" title="Pause game"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4H10V20H6ZM14 4H18V20H14Z" fill="currentColor"/></svg></button>
+<nav class="toolbar" aria-label="Game links">
+<button id="leaderboard-button" class="tool" title="Top 10 high scores" aria-label="Top 10 high scores"><svg viewBox="0 0 28 24" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 21V11H10V3H18V11H26V21ZM10 11V21M18 11V21" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+<a id="coin-link" class="tool" href="https://pump.fun/" target="_blank" rel="noopener noreferrer" title="Open pump.fun" aria-label="Coin: open pump.fun"><svg viewBox="0 0 26 26" aria-hidden="true" shape-rendering="crispEdges"><path d="M9 1H17V3H21V5H23V9H25V17H23V21H21V23H17V25H9V23H5V21H3V17H1V9H3V5H5V3H9Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 4H14V7H17V10H12V12H16V14H18V18H15V21H12V18H9V15H14V13H10V11H8V8H12Z" fill="currentColor"/></svg></a>
+<a id="x-link" class="tool" href="https://x.com/SnakeGameNokia" target="_blank" rel="noopener noreferrer" title="Follow Snake Game on X" aria-label="Follow Snake Game Nokia on X"><svg viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 2H4V4H6V6H8V8H10V10H14V8H16V6H18V4H20V2H23V5H21V7H19V9H17V11H15V13H17V15H19V17H21V19H23V22H20V20H18V18H16V16H14V14H10V16H8V18H6V20H4V22H1V19H3V17H5V15H7V13H9V11H7V9H5V7H3V5H1Z" fill="currentColor"/></svg></a>
+</nav>
+</header>
+<section id="arena" aria-label="Snake game area">
+<canvas id="board" aria-label="Move with arrow keys, WASD, or swipe. Eat the square and avoid the walls and your tail."></canvas>
+<div id="start-screen" class="start-screen">
+<button id="start-button" class="pixel-button start-button"><pixel-text text="START GAME"></pixel-text></button>
+<p class="hint keyboard-hint">Arrow keys / WASD to move <span>·</span> Space to pause</p>
+<p class="hint touch-hint">Swipe anywhere to steer</p>
+</div>
+<div id="countdown" class="countdown" hidden aria-live="polite"><pixel-text id="countdown-text" text="3"></pixel-text></div>
+<div id="bottom-controls" class="bottom-controls">
+<button id="sound-button" class="quiet-button" aria-label="Turn sound on" title="Sound off" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9H7L12 5V19L7 15H3Z" fill="currentColor"/><path id="sound-mark" d="M16 9L22 15M22 9L16 15" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+<span id="player-label" class="player-label"></span>
+<button id="fullscreen-button" class="quiet-button" title="Fullscreen" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3V9M15 3H21V9M21 15V21H15M9 21H3V15" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+</div>
+</section>
+</main>
+<dialog id="handle-dialog" class="lcd-dialog" aria-labelledby="handle-title">
+<button class="close-dialog" data-close aria-label="Close">×</button>
+<p class="eyebrow">READY, PLAYER?</p>
+<h1 id="handle-title">Input X Handle to<br class="wide-break"> compete for <strong>$NOK pot</strong></h1>
+<form id="handle-form" novalidate>
+<label for="handle-input" class="field-label">X HANDLE</label>
+<div class="handle-field"><span aria-hidden="true">@</span><input id="handle-input" name="handle" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="16" placeholder="yourhandle" aria-describedby="handle-error handle-note" required></div>
+<p id="handle-error" class="error" role="alert"></p>
+<button id="play-button" class="pixel-button full-width" type="submit"><pixel-text text="LET'S PLAY"></pixel-text></button>
+<p id="handle-note" class="fine-print">Your handle and score appear on the leaderboard.</p>
+</form>
+</dialog>
+<dialog id="leaderboard-dialog" class="lcd-dialog leaderboard-dialog" aria-labelledby="top10-title">
+<button class="close-dialog" data-close aria-label="Close top 10">×</button>
+<h2 id="top10-title"><pixel-text text="TOP 10"></pixel-text></h2>
+<div id="leaderboard-status" role="status" class="table-status">Loading scores…</div>
+<table id="leaderboard-table" hidden><thead><tr><th scope="col">#</th><th scope="col">X HANDLE</th><th scope="col">SCORE</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
+<button id="leaderboard-retry" class="text-button" hidden>TRY AGAIN</button>
+<button class="pixel-button full-width" data-close><pixel-text text="BACK TO GAME"></pixel-text></button>
+</dialog>
+<dialog id="pause-dialog" class="lcd-dialog compact-dialog" aria-labelledby="pause-title">
+<h2 id="pause-title"><pixel-text text="PAUSED"></pixel-text></h2>
+<p class="hint">Your snake will wait.</p>
+<button id="resume-button" class="pixel-button full-width"><pixel-text text="RESUME"></pixel-text></button>
+<p class="fine-print keyboard-hint">Space / Escape to continue</p>
+</dialog>
+<dialog id="over-dialog" class="lcd-dialog compact-dialog" aria-labelledby="over-title">
+<button class="close-dialog" data-close aria-label="Back to start">×</button>
+<p class="eyebrow">ANOTHER ROUND?</p>
+<h2><pixel-text id="over-title" text="GAME OVER"></pixel-text></h2>
+<pixel-text id="final-score" text="0000" class="final-score"></pixel-text>
+<p id="final-handle" class="final-handle"></p>
+<p id="save-status" role="status" class="save-status">Saving score…</p>
+<button id="retry-save" class="text-button" hidden>RETRY SAVING SCORE</button>
+<button id="again-button" class="pixel-button full-width"><pixel-text text="PLAY AGAIN"></pixel-text></button>
+<div class="gameover-links"><button id="over-top10" class="text-button">TOP 10</button><button id="change-handle" class="text-button">CHANGE HANDLE</button></div>
+</dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+<noscript><div class="no-script">Please enable JavaScript to play Snake Game.</div></noscript>
+<script type="module" src="/client.js"></script>
+</body>
+</html>
